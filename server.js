@@ -1,6 +1,9 @@
 var express = require("express");
 var path = require("path");
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://...');
+
 var app = express();
 var port = 8080;
  
