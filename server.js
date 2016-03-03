@@ -19,7 +19,7 @@ router.use(function (req, res, next) {
 });
 
 router.get('/', function (req, res) {
-    res.json({message: 'hello api'});
+    res.sendFile('./public/index.html', { root: __dirname });
 });
 
 router.route('/pictures')
