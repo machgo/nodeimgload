@@ -26,6 +26,8 @@ router.route('/pictures')
     .post(function (req, res) {
         var pic = new Picture();
         pic.name = req.body.name;
+        pic.created_at = new Date();
+        pic.data = null;
         console.log(req.body);
         
         pic.save(function (err) {
