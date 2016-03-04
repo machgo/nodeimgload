@@ -9,7 +9,8 @@ mongoose.connect('mongodb://localhost');
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use('/pictures', bodyParser.json());
+app.use('/upload', bodyParser.raw());
  
 var router = express.Router();
 
@@ -52,6 +53,13 @@ router.route('/pictures/:picture_id')
             res.json(picture)
         });
     });
+
+router.route('/upload/:picture_id')
+    .post(function (res, req) {
+        var buf = req.body;
+        console.log(buf.toString());
+        
+    })
 
 app.use('/api', router);
 
