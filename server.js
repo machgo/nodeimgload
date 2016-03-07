@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require('body-parser');
 var path = require("path");
+var fs = require("fs");
 
 var port = process.env.PORT || 8080;
 
@@ -11,11 +12,22 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/pictures', bodyParser.json());
 app.use('/upload', bodyParser.raw());
+app.use(function(req, res, next) {
+    var data = new Buffer('');
+    req.on('data', function(chunk) {
+        data = Buffer.concat([data, chunk]);
+    });
+    req.on('end', function() {
+        req.rawBody = data;
+        next();
+    });
+});
  
 var router = express.Router();
 
 router.use(function (req, res, next) {
     console.log("received...");
+    console.log(req.body);
     next();
 });
 
@@ -55,15 +67,16 @@ router.route('/pictures/:picture_id')
     });
 
 router.route('/upload/:picture_id')
-    .post(function (res, req) {
-        var buf = req.body;
-        console.log(buf.toString());
-        
-    })
-
+    .post(function (req, res) {
+        var buf = req.rawBody;
+        var s =fs.createWriteStream("blubb.jpg");
+        s.write(buf);
+        s.end();       
+        console.log(req);    
+    });
+    
 app.use('/api', router);
 
 var Picture = require('./app/models/picture');
-
 
 app.listen(port);
