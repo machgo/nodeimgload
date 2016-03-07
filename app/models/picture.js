@@ -7,4 +7,11 @@ var PictureSchema = new Schema({
     data: Buffer
 });
 
+//remove binary data from model
+PictureSchema.methods.toJSON  = function(){
+    var obj = this.toObject();
+    delete obj.data;
+    return obj;
+}
+
 module.exports = mongoose.model('Picture', PictureSchema);
