@@ -67,6 +67,14 @@ router.route('/pictures/:picture_id')
     });
 
 router.route('/upload/:picture_id')
+    .get(function (req, res) {
+        Picture.findById(req.params.picture_id, function (err, picture) {
+            if (err)
+                res.send(err);
+            res.contentType("image/png");
+            res.send(picture.data);
+        });
+    })
     .post(function (req, res) {
         var buf = req.rawBody;
         Picture.findById(req.params.picture_id, function (err, picture) {
