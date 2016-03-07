@@ -69,11 +69,17 @@ router.route('/pictures/:picture_id')
 router.route('/upload/:picture_id')
     .post(function (req, res) {
         var buf = req.rawBody;
-        var s =fs.createWriteStream("blubb.jpg");
-        s.write(buf);
-        s.end();       
-        console.log(req);    
-        res.sendStatus(200);
+        Picture.findById(req.params.picture_id, function (err, picture) {
+            if (err)
+                res.send(err);
+            picture.data = buf;
+            picture.save(function (err) {
+                if (err)
+                    res.send(err);
+                res.sendStatus(200);
+            })
+        });                   
+        console.log(req); 
     });
     
 app.use('/api', router);
