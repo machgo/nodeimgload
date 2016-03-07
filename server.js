@@ -73,6 +73,7 @@ router.route('/upload/:picture_id')
         s.write(buf);
         s.end();       
         console.log(req);    
+        res.sendStatus(200);
     });
     
 app.use('/api', router);
