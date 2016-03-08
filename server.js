@@ -8,7 +8,7 @@ var config = require("./config.js");
 
 var app = express();
 var mongoose = require('mongoose');
-mongoose.connect(config.db[app.settings.env]);
+mongoose.connect(config.db[process.env.NODE_ENV]);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/pictures', bodyParser.json());
