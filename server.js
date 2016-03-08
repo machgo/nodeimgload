@@ -4,11 +4,12 @@ var path = require("path");
 var fs = require("fs");
 
 var port = process.env.PORT || 8080;
-
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost');
+var config = require("./config.js");
 
 var app = express();
+var mongoose = require('mongoose');
+mongoose.connect(config.db[app.settings.env]);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/pictures', bodyParser.json());
 app.use('/upload', bodyParser.raw());
