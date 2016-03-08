@@ -11,7 +11,8 @@
     "mongoose": "^4.4.6"
   },
   "scripts": {
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production node server.js",
+    "test": "mocha"
   },
   "devDependencies": {
     "chai": "^3.5.0",
