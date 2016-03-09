@@ -36,63 +36,13 @@ router.get('/', function (req, res) {
     res.sendFile('./public/index.html', { root: __dirname });
 });
 
-router.route('/pictures')
-    .post(function (req, res) {
-        var pic = new Picture();
-        pic.name = req.body.name;
-        pic.created_at = new Date();
-        pic.data = null;
-        console.log(req.body);
-        
-        pic.save(function (err) {
-            if (err)
-                res.send(err);
-            res.json({message: 'Pic created..'});
-        });
-    })
-    .get(function (req, res) {
-        Picture.find(function (err, pictures) {
-            if (err)
-                res.send(err);
-            res.json(pictures);
-        });
-    });
-    
-router.route('/pictures/:picture_id')
-    .get(function (req, res) {
-        Picture.findById(req.params.picture_id, function (err, picture) {
-            if (err)
-                res.send(err);
-            res.json(picture)
-        });
-    });
+var picturesRoutes = require("./app/routes/pictures.js");
+router.get('/pictures', picturesRoutes.index);
+router.get('/pictures/:picture_id', picturesRoutes.show);
+router.post('/pictures', picturesRoutes.create);
 
-router.route('/upload/:picture_id')
-    .get(function (req, res) {
-        Picture.findById(req.params.picture_id, function (err, picture) {
-            if (err)
-                res.send(err);
-            res.contentType("image/png");
-            res.send(picture.data);
-        });
-    })
-    .post(function (req, res) {
-        var buf = req.rawBody;
-        Picture.findById(req.params.picture_id, function (err, picture) {
-            if (err)
-                res.send(err);
-            picture.data = buf;
-            picture.save(function (err) {
-                if (err)
-                    res.send(err);
-                res.sendStatus(200);
-            })
-        });                   
-        console.log(req); 
-    });
+router.get('/upload/:picture_id', picturesRoutes.getBinary);
+router.post('/upload/:picture_id', picturesRoutes.setBinary);
     
 app.use('/api', router);
-
-var Picture = require('./app/models/picture');
-
 app.listen(port);

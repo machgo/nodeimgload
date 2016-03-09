@@ -1,7 +1,7 @@
 module.exports = {
     db: {
-        production: "mongodb://localhost/nodeimage-prod",
+        production: "mongodb://localhost/nodeimageload-prod",
         development: "mongodb://localhost/nodeimageload-dev",
-        test: "mongodb://localhost/nodeimage-test"
+        test: "mongodb://localhost/nodeimageload-test"
     }
 }
