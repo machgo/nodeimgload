@@ -10,6 +10,7 @@ describe("Pictures: models", function () {
         Picture.create(p, function (err, createdPicture) {
             should.not.exist(err);
             createdPicture.name.should.equal('testpic');
+            should.not.exist(createdPicture.data);
             done();
         });
     });
